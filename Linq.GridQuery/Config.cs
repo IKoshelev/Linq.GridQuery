@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Linq.GridQuery
 {
-    public class Class1
+    public static class Config
     {
+        public static Func<string, Type, object> ValueDeserialiationFunction { get; set; }
     }
 }
