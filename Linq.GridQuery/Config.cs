@@ -7,6 +7,6 @@ namespace Linq.GridQuery
 {
     public static class Config
     {
-        public static Func<string, Type, object> ValueDeserialiationFunction { get; set; }
+        public static Func<string, Type, object> DefaultValueDeserialiationFunction { get; set; }
     }
 }

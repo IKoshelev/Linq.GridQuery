@@ -14,24 +14,30 @@ namespace Linq.GridQuery.Model
 
     public class FilterTreeNode
     {
+        public Func<string, Type, object> ValueDeserializationFunctionOverride { get; set; }
+
         public readonly GridFilter Filter;
         public readonly FilterTreeNode LeftTreeNode;
         public readonly FilterTreeNode RightTreeNode;
         public readonly LogicalOpertor LogicalOperator;
 
-        public FilterTreeNode(GridFilter filter)
+        public FilterTreeNode(GridFilter filter,
+            Func<string, Type, object> valueDeserializationFunctionOverride = null)
         {
             Filter = filter;
+            ValueDeserializationFunctionOverride = valueDeserializationFunctionOverride;
         }
 
         public FilterTreeNode(
             FilterTreeNode leftTreeNode,
             LogicalOpertor logicalOperator,
-            FilterTreeNode rightTreeNode)
+            FilterTreeNode rightTreeNode,
+            Func<string, Type, object> valueDeserializationFunctionOverride = null)
         {
             LeftTreeNode = leftTreeNode;
             RightTreeNode = rightTreeNode;
             LogicalOperator = logicalOperator;
+            ValueDeserializationFunctionOverride = valueDeserializationFunctionOverride;
         }
 
         public IQueryable<T> WrapFilter<T>(IQueryable<T> query)
@@ -39,7 +45,7 @@ namespace Linq.GridQuery.Model
             var type = typeof(T);
             ParameterExpression parameter = Expression.Parameter(type, "par");
 
-            var filterExpr = GetExprssion<T>(parameter);
+            Expression filterExpr = GetExprssion<T>(parameter, ValueDeserializationFunctionOverride);
 
             var lambdaFilter = Expression.Lambda<Func<T, bool>>(filterExpr, new[] { parameter });
 
@@ -48,11 +54,13 @@ namespace Linq.GridQuery.Model
             return newQuery;
         }
 
-        internal Expression GetExprssion<T>(ParameterExpression parameter)
+        internal Expression GetExprssion<T>(ParameterExpression parameter, Func<string, Type, object> valueDeserializationFunctionFromUpTree = null)
         {
+            var deserializationFunction = ValueDeserializationFunctionOverride ?? valueDeserializationFunctionFromUpTree;
+
             if (Filter != null)
             {
-                return GetExpresionFromCondition<T>(parameter);
+                return GetExpresionFromCondition<T>(parameter, deserializationFunction);
             }
 
             if(LeftTreeNode == null || RightTreeNode == null)
@@ -63,16 +71,16 @@ namespace Linq.GridQuery.Model
             if (LogicalOperator == LogicalOpertor.AND)
             {
                 return Expression.And(
-                    LeftTreeNode.GetExprssion<T>(parameter),
-                    RightTreeNode.GetExprssion<T>(parameter));
+                    LeftTreeNode.GetExprssion<T>(parameter, deserializationFunction),
+                    RightTreeNode.GetExprssion<T>(parameter, deserializationFunction));
             }
 
             return Expression.Or(
-                   LeftTreeNode.GetExprssion<T>(parameter),
-                   RightTreeNode.GetExprssion<T>(parameter));
+                   LeftTreeNode.GetExprssion<T>(parameter, deserializationFunction),
+                   RightTreeNode.GetExprssion<T>(parameter, deserializationFunction));
         }
 
-        internal Expression GetExpresionFromCondition<T>(ParameterExpression parameter)
+        internal Expression GetExpresionFromCondition<T>(ParameterExpression parameter, Func<string, Type, object> valueDeserializationFunction = null)
         {
             var type = typeof(T);
             var prop = type.GetProperty(
@@ -80,8 +88,19 @@ namespace Linq.GridQuery.Model
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
             
             var propAccessExpr = Expression.MakeMemberAccess(parameter, prop);
-            object value = Config.ValueDeserialiationFunction(Filter.StringValue, prop.PropertyType);
-            Expression<Func<T, bool>> filterExpr;
+            Func<string, Type, object> deserializationFunc = valueDeserializationFunction ?? Config.DefaultValueDeserialiationFunction;
+
+            if (deserializationFunc == null)
+            {
+                throw new InvalidOperationException(
+$@"Can't deserialize value {Filter.StringValue}, 
+because both {nameof(Config)}.{nameof(Config.DefaultValueDeserialiationFunction)} 
+and {nameof(valueDeserializationFunction)} argument passed from up tree are null. 
+Please set general function in config or provide one for 
+partiucular instances (can be passed with constructor or set via {ValueDeserializationFunctionOverride} prop).");
+            }
+
+            object value = deserializationFunc(Filter.StringValue, prop.PropertyType);
 
             var comparison = GetComparator(
                 Filter.Operand,
