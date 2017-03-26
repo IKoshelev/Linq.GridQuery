@@ -67,6 +67,23 @@ namespace Linq.GridQuery.Test
         }
 
         [Test]
+        public void FilterOnWrongPropertyThrows()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var filter = new FilterTreeNode(
+                    new GridFilter()
+                    {
+                        PropName = "X",
+                        StringValue = "4",
+                        Operator = "gt"
+                    });
+
+                var query = filter.WrapFilter(Collection);
+            });
+        }
+
+        [Test]
         public void CanHanldeNullables()
         {
             var filter = new FilterTreeNode(

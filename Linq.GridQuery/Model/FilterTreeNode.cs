@@ -140,6 +140,11 @@ namespace Linq.GridQuery.Model
                 Filter.PropName,
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 
+            if (prop == null)
+            {
+                throw new ArgumentException($"Property {Filter.PropName} not found on type {typeof(T).Name}");
+            }
+
             var isNullableStruct = prop.PropertyType.IsNullableStruct();
 
             var propAccessExpr = Expression.MakeMemberAccess(parameter, prop);

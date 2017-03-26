@@ -58,6 +58,22 @@ namespace Linq.GridQuery.Test
         }
 
         [Test]
+        public void SortOnWrongPropertyThrows()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var sort = new[] { new GridSort("X") };
+
+                var request = new GridRequest()
+                {
+                    Sort = sort
+                };
+
+                var query = request.WrapQuery(Collection);
+            });
+        }
+
+        [Test]
         public void SingleSortDescWorks()
         {
             var sort = new[] { new GridSort("E", true) };
@@ -137,6 +153,22 @@ namespace Linq.GridQuery.Test
                 Collection.ElementAt(1),
                 Collection.ElementAt(2)
             }));
+        }
+
+        [Test]
+        public void NullLowestOnNoNullableTrhows()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var sort = new[] { new GridSort("A", treatNullLowest: true) };
+
+                var request = new GridRequest()
+                {
+                    Sort = sort
+                };
+
+                var query = request.WrapQuery(Collection);
+            });
         }
 
         [Test]

@@ -87,6 +87,11 @@ namespace Linq.GridQuery.Model
         {
             var prop = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 
+            if (prop == null)
+            {
+                throw new ArgumentException($"Property {name} not found on type {type.Name}");
+            }
+
             if (TreatNullLowest && prop.PropertyType.IsNullable() == false)
             {
                 throw new ArgumentException($"{TreatNullLowest} is set to true " + 
@@ -95,6 +100,7 @@ namespace Linq.GridQuery.Model
             }
 
             var param = Expression.Parameter(type);
+            
             var propAccess = Expression.Property(param, prop.Name);
             var expr = Expression.Lambda(propAccess, param);
             return expr;
