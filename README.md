@@ -1,7 +1,7 @@
 # Linq.GridQuery
 Library to wrap IQueryable with filter and sort queries received in serialized form (i.e. from JavaScript front-end). Works by way of expression trees.
 
-1. You create an instance of GridRequest based on the strings description of the query you have, as showcased below.
+1. You create an instance of GridRequest based on the string descriptions of the query you have, as showcased below.
 2. You wrap your IQueryable (i.e. an Entity Framework query) with that GridRequest.
 3. Your query is now filtered, sorted, and paged. As you would expect from an IQueryable, this is all done with strong-typed expression trees, and will be handled by your query provider, as if you wrote the tress yorself (normally, that means, no in-memory processing). 
 
