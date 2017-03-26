@@ -44,6 +44,8 @@
     <Compile Include="Model\FilterTreeNode.cs" />
     <Compile Include="Model\GridFilter.cs" />
     <Compile Include="Model\GridSort.cs" />
+    <Compile Include="Model\LogicalOperator.cs" />
+    <Compile Include="Model\OperatorHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
