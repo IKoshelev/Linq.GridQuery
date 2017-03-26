@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Linq.GridQuery</id>
+    <version>1.0.0</version>
+    <title>$title$</title>
+    <authors>github.com/ikoshelev</authors>
+    <owners>github.com/ikoshelev</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/IKoshelev/Linq.GridQuery</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library to wrap IQueryable with filter and sort queries received in serialized form (i.e. from JavaScript front-end). Works by way of expression trees. </description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>
+		linq data-grid query filter sort
+	</tags>
+  </metadata>
+</package>
