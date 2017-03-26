@@ -8,7 +8,7 @@ Library to wrap IQueryable with filter and sort queries received in serialized f
 # 
 ```C#
 // provide a deserialization function usable with your particular serialization scenario 
-// (you can also pass one to individual queries if your app has multiple scenarios)
+// (you can also pass one to individual FilterTreeNodes if your app has multiple scenarios)
             Config.DefaultValueDeserialiationFunction = (val, type) =>
             {
                 return JsonConvert.DeserializeObject(val, type);
