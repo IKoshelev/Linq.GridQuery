@@ -24,20 +24,20 @@ namespace Linq.GridQuery.Test
             Collection = (
                  new[]
                  {
-                        new TestSubject { A = 0 , C = null  , D = TestEnum.A , E = null       },
-                        new TestSubject { A = 1 , C = null  , D = TestEnum.A , E = null       },
-                        new TestSubject { A = 2 , C = 3     , D = TestEnum.B , E = TestEnum.B },
-                        new TestSubject { A = 3 , C = 5     , D = TestEnum.C , E = TestEnum.C },
-                        new TestSubject { A = 4 , C = null  , D = TestEnum.A , E = TestEnum.B },
-                        new TestSubject { A = 5 , C = 3     , D = TestEnum.B , E = null       },
-                        new TestSubject { A = 6 , C = 3     , D = TestEnum.C , E = TestEnum.C },
-                        new TestSubject { A = 7 , C = 3     , D = TestEnum.C , E = TestEnum.A },
-                        new TestSubject { A = 8 , C = null  , D = TestEnum.A , E = null       },
-                        new TestSubject { A = 9 , C = 3     , D = TestEnum.B , E = TestEnum.B },
-                        new TestSubject { A = 10 , C = 3    , D = TestEnum.C , E = TestEnum.C },
-                        new TestSubject { A = 11 , C = null , D = TestEnum.A , E = null       },
-                        new TestSubject { A = 12 , C = 3    , D = TestEnum.B , E = TestEnum.B },
-                        new TestSubject { A = 13 , C = 3    , D = TestEnum.C , E = TestEnum.C }
+                        new TestSubject { A = 0 , C = null  , E = null       },
+                        new TestSubject { A = 1 , C = null  , E = null       },
+                        new TestSubject { A = 2 , C = 3     , E = TestEnum.B },
+                        new TestSubject { A = 3 , C = 5     , E = TestEnum.C },
+                        new TestSubject { A = 4 , C = null  , E = TestEnum.B },
+                        new TestSubject { A = 5 , C = 3     , E = null       },
+                        new TestSubject { A = 6 , C = 3     , E = TestEnum.C },
+                        new TestSubject { A = 7 , C = 3     , E = TestEnum.A },
+                        new TestSubject { A = 8 , C = null  , E = null       },
+                        new TestSubject { A = 9 , C = 3     , E = TestEnum.B },
+                        new TestSubject { A = 10 , C = 3    , E = TestEnum.C },
+                        new TestSubject { A = 11 , C = null , E = null       },
+                        new TestSubject { A = 12 , C = 3    , E = TestEnum.B },
+                        new TestSubject { A = 13 , C = 3    , E = TestEnum.C }
                  })
                  .AsQueryable();
         }
@@ -56,8 +56,8 @@ namespace Linq.GridQuery.Test
 
             var sort = new[] 
             {
-                new GridSort("C", false, true),
-                new GridSort("E", true)
+                new GridSort("C", isDescending: false, treatNullLowest: true),
+                new GridSort("E", isDescending: true)
             };
 
             var gridQuery = new GridRequest()
@@ -89,6 +89,12 @@ namespace Linq.GridQuery.Test
                 Collection.ElementAt(12),
                 Collection.ElementAt(7)
             }));
+
+            var queryWithCount =  gridQuery.WrapQueryWithCount(Collection);
+            var result2 = queryWithCount.Query.ToArray();
+
+            Assert.That(result, Is.EquivalentTo(result2));
+            Assert.That(queryWithCount.Count, Is.EqualTo(7));
         }
     }
 }

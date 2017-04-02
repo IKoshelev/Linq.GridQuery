@@ -36,6 +36,25 @@ namespace Linq.GridQuery
             return query;
         }
 
+        public WrappedQueryWithCount<T> WrapQueryWithCount<T>(IQueryable<T> initialQuery)
+        {
+            var result = new WrappedQueryWithCount<T>();
+
+            var query = initialQuery;
+
+            query = WrapFilter(query);
+
+            query = WrapSort(query);
+
+            result.Count = query.Count();
+
+            query = WrapSkipTake(query);
+
+            result.Query = query;
+
+            return result;
+        }
+
         private IQueryable<T> WrapSkipTake<T>(IQueryable<T> initialQuery)
         {
             var query = initialQuery;
