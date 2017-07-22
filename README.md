@@ -1,3 +1,12 @@
+Library is available via NuGet prackage https://www.nuget.org/packages/Linq.GridQuery
+
+Inner workings of the library are explained in articles:
+
+http://ikoshelev.azurewebsites.net/search/id/1/Expression-trees-and-advanced-queries-in-CSharp-01-IQueryable-and-Expression-Tree-basics
+
+http://ikoshelev.azurewebsites.net/search/id/2/Expression-trees-and-advanced-queries-in-CSharp-02-IQueryable-composition
+
+
 # Linq.GridQuery
 Library to wrap IQueryable with filter and sort queries received in serialized form (i.e. from JavaScript front-end). Works by way of expression trees.
 
