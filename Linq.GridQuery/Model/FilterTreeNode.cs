@@ -4,18 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Linq.GridQuery.Model
 {
+    [DataContract]
     public class FilterTreeNode
     {
         public Func<string, Type, object> ValueDeserializationFunctionOverride { get; set; }
         public Dictionary<string, OperatorHandler> OperatorToExpressionConvertersOverrides;
 
+        [DataMember]
         public readonly GridFilter Filter;
+        [DataMember]
         public readonly FilterTreeNode LeftTreeNode;
+        [DataMember]
         public readonly FilterTreeNode RightTreeNode;
+        [DataMember]
         public readonly LogicalOpertor LogicalOperator;
 
         public FilterTreeNode(

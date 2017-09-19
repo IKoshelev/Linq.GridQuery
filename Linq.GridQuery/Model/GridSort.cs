@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Linq.GridQuery.Model
 {
+    [DataContract]
     public class GridSort
     {
         public GridSort()
@@ -21,8 +23,11 @@ namespace Linq.GridQuery.Model
             TreatNullLowest = treatNullLowest;
         }
 
+        [DataMember]
         public string PropName { get; set; }
+        [DataMember]
         public bool IsDescending { get; set; }
+        [DataMember]
         public bool TreatNullLowest { get; set; }
 
         public IQueryable<T> WrapSort<T>(

@@ -4,23 +4,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Linq.GridQuery
 {
+    [DataContract]
     public class GridRequestWithAdditionalPayload<T> : GridRequest
     {
         public T Payload { get; set; }
     }
 
+    [DataContract]
     public class GridRequest
     {
+        [DataMember]
         public GridSort[] Sort { get; set; } = new GridSort[0];
 
+        [DataMember]
         public FilterTreeNode Filter { get; set; }
 
+        [DataMember]
         public int? Skip { get; set; }
 
+        [DataMember]
         public int? Take { get; set; }
 
         public IQueryable<T> WrapQuery<T>(IQueryable<T> initialQuery)
