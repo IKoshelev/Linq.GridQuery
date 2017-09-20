@@ -95,6 +95,12 @@ namespace Linq.GridQuery.Test
 
             Assert.That(result, Is.EquivalentTo(result2));
             Assert.That(queryWithCount.Count, Is.EqualTo(7));
+
+            var resultWithCount = gridQuery.GetQueryResultWithCount(Collection);
+            var result3 = resultWithCount.Result.ToArray();
+
+            Assert.That(result, Is.EquivalentTo(result3));
+            Assert.That(resultWithCount.Count, Is.EqualTo(7));
         }
     }
 }
