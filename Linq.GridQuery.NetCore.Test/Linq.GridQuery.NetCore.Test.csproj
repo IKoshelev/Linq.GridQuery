@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Linq.GridQuery.Test\GridFilterPredefinedOperatorsTest.cs" Link="GridFilterPredefinedOperatorsTest.cs" />
+    <Compile Include="..\Linq.GridQuery.Test\GridFilterTest.cs" Link="GridFilterTest.cs" />
+    <Compile Include="..\Linq.GridQuery.Test\GridQueryFullTest.cs" Link="GridQueryFullTest.cs" />
+    <Compile Include="..\Linq.GridQuery.Test\GridSortTest.cs" Link="GridSortTest.cs" />
+    <Compile Include="..\Linq.GridQuery.Test\TestSubject.cs" Link="TestSubject.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Linq.GridQuery\Linq.GridQuery.csproj" />
+  </ItemGroup>
+
+</Project>

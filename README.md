@@ -1,3 +1,8 @@
+Library is available via NuGet prackage https://www.nuget.org/packages/Linq.GridQuery.NetStandard
+
+Description for primary (master) project:
+
+
 Library is available via NuGet prackage https://www.nuget.org/packages/Linq.GridQuery
 
 Inner workings of the library are explained in articles:
