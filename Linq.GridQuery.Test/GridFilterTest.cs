@@ -64,6 +64,7 @@ namespace Linq.GridQuery.Test
             Assert.That(query.ToString(), Is.EqualTo(expectation));
             Assert.That(query.Count, Is.EqualTo(1));
             Assert.That(query.Single().A, Is.EqualTo(5));
+
         }
 
         [Test]
@@ -634,5 +635,62 @@ namespace Linq.GridQuery.Test
             Assert.That(query.ElementAt(2).A, Is.EqualTo(5));
         }
 
+
+
+        [Test]
+        public void GetLambdaExpressionTest()
+        {
+            var filter = new FilterTreeNode(
+                new GridFilter()
+                {
+                    PropName = "A",
+                    StringValue = "4",
+                    Operator = "gt"
+                });
+
+            var lambdaExpression = filter.GetLambdaExpression<TestSubject>();
+
+            var expectation = "par => (par.A > 4)";
+            Assert.That(lambdaExpression.ToString(), Is.EqualTo(expectation));
+      
+        }
+
+
+        [Test]
+        public void GetLambdaExpressionThreeBranchesTest()
+        {
+            var filter = new FilterTreeNode(
+               new FilterTreeNode(
+                   new FilterTreeNode(
+                       new GridFilter()
+                       {
+                           PropName = "A",
+                           StringValue = "2",
+                           Operator = "gt"
+                       }),
+                        LogicalOpertor.AND,
+                        new FilterTreeNode(
+                            new GridFilter()
+                            {
+                                PropName = "A",
+                                StringValue = "4",
+                                Operator = "lt"
+                            })
+                       ),
+                LogicalOpertor.AND,
+                new FilterTreeNode(
+                    new GridFilter()
+                    {
+                        PropName = "A",
+                        StringValue = "5",
+                        Operator = "eq"
+                    }));
+
+
+            var lambdaExpression = filter.GetLambdaExpression<TestSubject>();
+
+            var expectation = "par => (((par.A > 2) And (par.A < 4)) And (par.A == 5))";
+            Assert.That(lambdaExpression.ToString(), Is.EqualTo(expectation));
+        }
     }
 }

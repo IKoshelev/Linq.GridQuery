@@ -8,6 +8,8 @@
     <Description>Library to wrap IQueryable with filter and sort queries received in serialized form (i.e. from JavaScript front-end). Works by way of expression trees
 </Description>
     <Company>github.com/lukynFromHell</Company>
+    <Version>1.1.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
