@@ -9,6 +9,9 @@ namespace Linq.GridQuery.Model
     [DataContract]
     public class GridFilter
     {
+        /// <summary>
+        /// Serialization constructor
+        /// </summary>
         public GridFilter()
         {
 

@@ -2,14 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Linq.GridQuery.NetStandard</PackageId>
-    <Authors>github.com/lukynFromHell</Authors>
-    <Product>Linq.GridQuery.NetStandard</Product>
+    <PackageId>Linq.GridQuery</PackageId>
+    <Authors>https://github.com/IKoshelev</Authors>
+    <Product>Linq.GridQuery</Product>
     <Description>Library to wrap IQueryable with filter and sort queries received in serialized form (i.e. from JavaScript front-end). Works by way of expression trees
 </Description>
-    <Company>github.com/lukynFromHell</Company>
-    <Version>1.1.0</Version>
+    <Company>https://github.com/IKoshelev</Company>
+    <Version>1.0.4</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

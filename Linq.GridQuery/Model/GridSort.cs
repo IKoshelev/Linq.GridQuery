@@ -11,6 +11,9 @@ namespace Linq.GridQuery.Model
     [DataContract]
     public class GridSort
     {
+        /// <summary>
+        /// Serialization constructor
+        /// </summary>
         public GridSort()
         {
 

@@ -24,6 +24,14 @@ namespace Linq.GridQuery.Model
         [DataMember]
         public readonly LogicalOpertor LogicalOperator;
 
+        /// <summary>
+        /// Serialization constructor
+        /// </summary>
+        public FilterTreeNode()
+        {
+
+        }
+
         public FilterTreeNode(
             GridFilter filter,
             Func<string, Type, object> valueDeserializationFunctionOverride = null,
