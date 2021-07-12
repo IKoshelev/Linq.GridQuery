@@ -53,8 +53,8 @@ namespace Linq.GridQuery.Model
             LogicalOpertor logicalOperator,
             FilterTreeNode rightTreeNode,
             Func<string, Type, object> valueDeserializationFunctionOverride = null,
-            Dictionary<string, OperatorHandler> operatorToExpressionConvertersOverrides = null):
-                    this(   new FilterTreeNode(leftGridFilter),
+            Dictionary<string, OperatorHandler> operatorToExpressionConvertersOverrides = null) :
+                    this(new FilterTreeNode(leftGridFilter),
                             logicalOperator,
                             rightTreeNode,
                             valueDeserializationFunctionOverride,
@@ -69,7 +69,7 @@ namespace Linq.GridQuery.Model
             GridFilter rightTreeNode,
             Func<string, Type, object> valueDeserializationFunctionOverride = null,
             Dictionary<string, OperatorHandler> operatorToExpressionConvertersOverrides = null) :
-                    this(   leftGridFilter,
+                    this(leftGridFilter,
                             logicalOperator,
                             new FilterTreeNode(rightTreeNode),
                             valueDeserializationFunctionOverride,
@@ -84,7 +84,7 @@ namespace Linq.GridQuery.Model
             GridFilter rightTreeNode,
             Func<string, Type, object> valueDeserializationFunctionOverride = null,
             Dictionary<string, OperatorHandler> operatorToExpressionConvertersOverrides = null) :
-                    this(   new FilterTreeNode(leftGridFilter),
+                    this(new FilterTreeNode(leftGridFilter),
                             logicalOperator,
                             new FilterTreeNode(rightTreeNode),
                             valueDeserializationFunctionOverride,
@@ -105,6 +105,24 @@ namespace Linq.GridQuery.Model
             var newQuery = query.Where(lambdaFilter);
 
             return newQuery;
+        }
+
+
+        /// <summary>
+        /// Returns lambda expression defined by FilterTreeNode
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Expression<Func<T, bool>> GetLambdaExpression<T>()
+        {
+            var type = typeof(T);
+            ParameterExpression parameter = Expression.Parameter(type, "par");
+
+            Expression filterExpr = GetExprssion<T>(parameter, ValueDeserializationFunctionOverride, OperatorToExpressionConvertersOverrides);
+
+            var lambdaFilter = Expression.Lambda<Func<T, bool>>(filterExpr, new[] { parameter });
+
+            return lambdaFilter;
         }
 
         internal Expression GetExprssion<T>(

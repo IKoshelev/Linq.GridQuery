@@ -67,14 +67,16 @@ namespace Linq.GridQuery
                         },
                         { "contains",   new OperatorHandler((propTypeUnwrapped, propTypeRaw, left, right) =>
                             {
-                                 var MethodInfo = propTypeUnwrapped.GetMethod("Contains", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                                 return Expression.Call(left, MethodInfo, right);
+                                    var MethodInfo = propTypeUnwrapped.GetMethod("Contains", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase
+                                     , null,  new Type[] { propTypeUnwrapped }, null);
+                                    return Expression.Call(left, MethodInfo, right);
                             })
                         },
                         { "doesnotcontain",  new OperatorHandler((propTypeUnwrapped, propTypeRaw, left, right) =>
                             {
-                                 var MethodInfo = propTypeUnwrapped.GetMethod("Contains", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                                 return Expression.Not(Expression.Call(left, MethodInfo, right));
+                                 var MethodInfo = propTypeUnwrapped.GetMethod("Contains", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase
+                                     , null,  new Type[] { propTypeUnwrapped }, null);
+                                return Expression.Not(Expression.Call(left, MethodInfo, right));
                             })
                         },
                         { "startswith",  new OperatorHandler((propTypeUnwrapped, propTypeRaw, left, right) =>
